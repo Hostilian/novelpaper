@@ -1,0 +1,16 @@
+{
+  "name": "NovelPaper",
+  "short_name": "NovelPaper",
+  "description": "Where Stories Take Shape - Celebrating the art of book folding and paper sculpture",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FEFDFB",
+  "theme_color": "#8B7355",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
