@@ -189,9 +189,9 @@ window.addEventListener('scroll', () => {
 // Dynamic Year in Footer
 // ==========================================
 const currentYear = new Date().getFullYear();
-const footerText = document.querySelector('.footer-bottom p');
-if (footerText) {
-    footerText.textContent = footerText.textContent.replace('2026', currentYear);
+const copyrightYearElement = document.getElementById('copyrightYear');
+if (copyrightYearElement) {
+    copyrightYearElement.textContent = currentYear;
 }
 
 // ==========================================
