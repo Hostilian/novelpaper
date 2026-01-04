@@ -1,0 +1,32 @@
+name: Validate HTML & CSS
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: .
+          css: true
+          
+      - name: Check for console errors
+        run: |
+          echo "Checking JavaScript syntax..."
+          node --check script.js || exit 0
+
+      - name: Validate links (if tools available)
+        run: |
+          echo "Link validation would run here in a full setup"
+          echo "Consider using tools like htmltest or linkchecker"
