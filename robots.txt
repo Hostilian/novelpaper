@@ -1,0 +1,9 @@
+# robots.txt - SEO optimization
+User-agent: *
+Allow: /
+
+# Sitemap location (update when sitemap is generated)
+Sitemap: https://hostilian.github.io/novelpaper/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

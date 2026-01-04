@@ -21,10 +21,14 @@ jobs:
           root: .
           css: true
           
-      - name: Check for console errors
+      - name: Check JavaScript syntax
         run: |
           echo "Checking JavaScript syntax..."
-          node --check script.js || exit 0
+          if ! node --check script.js; then
+            echo "⚠️  JavaScript syntax errors found"
+            exit 1
+          fi
+          echo "✓ JavaScript syntax is valid"
 
       - name: Validate links (if tools available)
         run: |

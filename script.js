@@ -148,15 +148,45 @@ if (contactForm) {
 }
 
 // ==========================================
-// Parallax Effect for Hero Section
+// Parallax Effect for Hero Section and Active Nav Highlighting
 // ==========================================
+let ticking = false;
+
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero-content');
-    
-    if (hero && scrolled < window.innerHeight) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        hero.style.opacity = 1 - (scrolled / 600);
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            
+            // Parallax effect
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / 600);
+            }
+            
+            // Active nav link highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(current => {
+                const sectionHeight = current.offsetHeight;
+                const sectionTop = current.offsetTop - 100;
+                const sectionId = current.getAttribute('id');
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+            
+            ticking = false;
+        });
+        
+        ticking = true;
     }
 });
 
@@ -174,9 +204,11 @@ if (copyrightYearElement) {
 // ==========================================
 document.addEventListener('keydown', (e) => {
     // Escape key closes mobile menu
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+    if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
         navMenu.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
+        if (navToggle) {
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
     }
 });
 
@@ -184,36 +216,17 @@ document.addEventListener('keydown', (e) => {
 // Loading Animation
 // ==========================================
 window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+    // Respect user's motion preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// ==========================================
-// Active Navigation Link Highlighting
-// ==========================================
-const sections = document.querySelectorAll('section[id]');
-
-window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset;
-    
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight;
-        const sectionTop = current.offsetTop - 100;
-        const sectionId = current.getAttribute('id');
+    if (!prefersReducedMotion) {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
         
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
-            });
-        }
-    });
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    }
 });
 
 // ==========================================
